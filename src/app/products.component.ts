@@ -28,4 +28,11 @@ export class ProductsComponent {
     this.Products = this.Products.filter(p => p !== ProductName);
   }
 
+  onAddForm(form){  
+    //console.log(form);
+    if(form.valid){
+      this.Products.push(form.value.ProductName);
+    }
+  }
+
 }
