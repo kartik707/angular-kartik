@@ -1,16 +1,21 @@
-import {Component} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {ProductsService} from './products.service'; 
+import { Subscription } from 'rxjs';
 
 @Component({
    selector: 'app-products',
    templateUrl: './products.component.html'
 })
 
-export class ProductsComponent {
+export class ProductsComponent implements OnInit, OnDestroy {
   ProductName = 'A Book';
   isDisabled = true;
-  Products = ['Books','Trees','Cars','Bikes'];
+  //Products = ['Books','Trees','Cars','Bikes'];
+  Products = [];
+  private productsSubscription: Subscription;
 
-  constructor(){
+  constructor(private productsService: ProductsService){
+    
     // setTimeout(() =>
     // this.ProductName = 'A Tree'
     // ,3000)
@@ -18,6 +23,17 @@ export class ProductsComponent {
     setTimeout(() =>
     this.isDisabled = false
     ,6000)
+  }
+
+  ngOnInit(){
+    this.Products = this.productsService.getProducts();
+    this.productsSubscription = this.productsService.productsUpdated.subscribe(() => {
+      this.Products = this.productsService.getProducts();
+    });
+  }
+
+  ngOnDestroy(){
+    this.productsSubscription.unsubscribe();
   }
 
   onProducts(){
@@ -31,7 +47,8 @@ export class ProductsComponent {
   onAddForm(form){  
     //console.log(form);
     if(form.valid){
-      this.Products.push(form.value.ProductName);
+      //this.Products.push(form.value.ProductName);
+      this.productsService.addProducts(form.value.ProductName);
     }
   }
 

@@ -1,4 +1,5 @@
 import {Component, Input, EventEmitter, Output} from '@angular/core';
+import {ProductsService} from '../products.service'; 
 
 @Component({
   selector: 'app-product',
@@ -10,9 +11,13 @@ export class ProductComponent {
 
  @Input()  ProductName: string;
  @Output() productClicked = new EventEmitter();
+ constructor(private productsService: ProductsService){
+
+ }
 
  onClick(){
-   this.productClicked.emit();
+   //this.productClicked.emit();
+   this.productsService.deleteProduct(this.ProductName);
  }
 
 }
