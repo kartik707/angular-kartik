@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'app-product',
@@ -9,5 +9,10 @@ import {Component, Input} from '@angular/core';
 export class ProductComponent {
 
  @Input()  ProductName: string;
+ @Output() productClicked = new EventEmitter();
+
+ onClick(){
+   this.productClicked.emit();
+ }
 
 }

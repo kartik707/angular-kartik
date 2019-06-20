@@ -23,4 +23,9 @@ export class ProductsComponent {
   onProducts(){
     this.Products.push(this.ProductName);
   }
+
+  onRemoveProduct(ProductName: string){
+    this.Products = this.Products.filter(p => p !== ProductName);
+  }
+
 }
